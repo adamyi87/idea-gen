@@ -1,7 +1,26 @@
 <h2>Hi! I'm an idea voting app!</h2>
 <ul>
   <% @ideas.each do |idea| %>
-  <li><% idea.title %> - <%= idea.description %></li>
+  <li><% idea.title %> - <%= idea.description %>
+  
+  <% if current_user && current_user.votes.where(:idea_id => idea.id, :up => true).present? %>
+  * /
+  
+  <% else %>
+  <%= link_to "+", votes_path(:vote => {:idea_id => idea.id, :up => true}), :method => :post %> /
   <% end %>
+    <% if current_user && current_user.votes.where(:idea_id => idea.id, :up => false).present? %>*
+    <% else %>
+    <%= link_to '-', votes_path(:vote => {:idea_id => idea.id, :up => false}), :method => :post %>
+    <% end %>
+    
+    
+    Votes <%= idea.votes.where(:up => true).count - idea.votes.where(:up => false).count %>
+  
+  
+  </li>
+  <% end %>
+  
+  
 </ul>
 <%= link_to "Submit an idea", new_idea_path %>

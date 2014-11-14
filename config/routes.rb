@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :pages
   resources :ideas
   root :to => "pages#index"
+  resources :votes, :only => [:create]
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
